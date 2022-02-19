@@ -6,6 +6,9 @@ import cors from "cors"
 
 import { MongoClient } from "mongodb"
 
+import getRoutes from "./getRoutes"
+import postRoutes from "./postRoutes"
+
 const mongoUsername = encodeURIComponent(process.env.MONGO_USERNAME as string);
 const mongoPassword = encodeURIComponent(process.env.MONGO_PASSWORD as string);
 const mongoHost = encodeURIComponent(process.env.MONGO_HOST as string);
@@ -18,22 +21,16 @@ const port = 5001
 
 app.use(cors({ origin: "*" }))
 app.use(express.json())
-
-// GET Routes
-app.get("/", (req, res) => {
-
-})
-
-// POST Routes
-app.post("/createListing", (req, res) => {
-
-})
+app.use(getRoutes)
+app.use(postRoutes)
 
 client.connect((err, db) => {
   if (err) {
     console.error(err)
     process.exit()
   }
+
+  app.locals.db = db
 
   const server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
