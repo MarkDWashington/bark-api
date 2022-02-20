@@ -10,7 +10,9 @@ postRoutes.post("/createItemListing", async (req, res) => {
     const listings = database.collection("itemListings")
 
     const newListing = req.body as ItemListing
-
+    
+    console.log(newListing);
+    
     listings.insertOne(newListing)
 
     res.send()
